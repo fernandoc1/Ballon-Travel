@@ -1,1 +1,89 @@
-My Github Page
+<html>
+<head>
+	<script type="text/javascript">
+	
+	var alpha=0;
+	var beta=0;
+	var gamma=0;
+
+	var interval=null;
+
+	var canvas;
+	
+	var canvas2dContext;
+
+	var rectX;
+	var rectY;
+
+	var ballon;
+
+	function init()
+	{
+		window.addEventListener('deviceorientation', function(event)
+		{
+			alpha = Math.round(Number(event.alpha));
+			beta = Math.round(Number(event.beta));
+			gamma = Math.round(Number(event.gamma));
+		}, false);
+		canvas2dContext=document.getElementById("gameCanvas").getContext('2d');
+		canvas=document.getElementById("gameCanvas");
+		rectX=canvas.width;
+		rectY=canvas.height;
+		//Load image.
+		ballon=new Image();
+		ballon.src='ballon_blue.png';
+		ballon.onload = function()
+			{
+				canvas2dContext.drawImage(ballon,0,0,45,45);
+			}
+		interval=setInterval("updateFields()", 25);
+	}
+
+	function updateFields()
+	{
+		canvas2dContext.fillStyle='#112200';
+		canvas2dContext.clearRect(0,0,canvas.width,canvas.height)
+		document.getElementById("alphaDiv").innerHTML=alpha;
+		document.getElementById("betaDiv").innerHTML=beta;
+		document.getElementById("gammaDiv").innerHTML=gamma;
+		canvas2dContext.fillStyle='#FF0000';
+		if(rectX<0)
+		{
+			rectX=0;
+		}
+		if (rectX>canvas.width-45)
+		{
+			rectX=canvas.width-45;
+		}
+		if(rectY<0)
+		{
+			rectY=0;
+		}
+		if (rectY>canvas.height-45)
+		{
+			rectY=canvas.height-45;
+		}
+		canvas2dContext.drawImage(ballon,rectX,rectY,45,45);
+		//canvas2dContext.fillRect(rectX,rectY,45,45);
+		document.getElementById("rectXDiv").innerHTML="X="+rectX;
+		document.getElementById("rectYDiv").innerHTML="Y="+rectY;
+		rectX+=gamma;
+		rectY+=beta;
+	}
+
+
+	</script>
+</head>
+<body onload="init()">
+<div id="canvasDiv">
+<canvas id="gameCanvas" height="600" width="800"> You are using a worthless web browser. Switch to a new one.</br> Choose Google Chrome or a newer Firefox.</br> </canvas>
+</div></br>
+<div id="alphaDiv"> xx </div> 
+<div id="betaDiv"> xx </div> 
+<div id="gammaDiv"> xx </div>
+<div id="rectXDiv"> rX </div>
+<div id="rectYDiv"> rY </div>
+<div id="debugMesg"> DEBUG </div></br>
+
+</body>
+</html>
